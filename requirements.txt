@@ -1,0 +1,3 @@
+# ecCodes (ECMWF) reads GRIB2; the eccodes package installs the library as a binary wheel
+eccodes>=2.39
+numpy>=1.26
