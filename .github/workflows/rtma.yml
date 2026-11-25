@@ -9,7 +9,7 @@ name: rtma
 on:
   schedule:
     - cron: "47 * * * *"    # backup: GitHub often starts this late or skips it
-  workflow_dispatch: {}     # the PowDash Worker starts it here at :50 each hour; also the "Run workflow" button
+  workflow_dispatch: {}     # the PowDash Worker starts it here on the hour; also the "Run workflow" button
 
 # One run at a time: a late scheduled run that lands during the Worker's run waits, then runs.
 concurrency:
