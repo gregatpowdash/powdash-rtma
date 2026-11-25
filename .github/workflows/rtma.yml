@@ -1,14 +1,20 @@
 # Hourly: NOAA RTMA (analysis of actual surface conditions) at each PowDash
 # zone's peak -> api.powdash.co. RTMA for an hour is usually posted by about
 # 30 minutes past; this runs at 47 past. GitHub may start scheduled runs a few
-# minutes late, or skip one when busy; the server falls back to the NWS
+# minutes late, or skip one when busy (from Nov 22, 2026 only 2-4 runs a day), so the
+# PowDash Worker also starts it each hour. The server falls back to the NWS
 # forecast grid if RTMA is more than 2.5 hours old.
 name: rtma
 
 on:
   schedule:
-    - cron: "47 * * * *"
-  workflow_dispatch: {}     # "Run workflow" button for testing
+    - cron: "47 * * * *"    # backup: GitHub often starts this late or skips it
+  workflow_dispatch: {}     # the PowDash Worker starts it here at :50 each hour; also the "Run workflow" button
+
+# One run at a time: a late scheduled run that lands during the Worker's run waits, then runs.
+concurrency:
+  group: rtma
+  cancel-in-progress: false
 
 permissions:
   contents: read
